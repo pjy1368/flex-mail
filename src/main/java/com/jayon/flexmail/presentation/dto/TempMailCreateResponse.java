@@ -1,4 +1,10 @@
 package com.jayon.flexmail.presentation.dto;
 
-public record TempMailCreateResponse() {
+import java.time.LocalDateTime;
+
+public record TempMailCreateResponse(
+        String emailAddress,
+        LocalDateTime expiresAt,
+        int expiresInSeconds
+) {
 } 
