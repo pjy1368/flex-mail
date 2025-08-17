@@ -1,6 +1,7 @@
 package com.jayon.flexmail.presentation.controller;
 
 import com.jayon.flexmail.application.service.TempMailService;
+import com.jayon.flexmail.domain.exception.BusinessException;
 import com.jayon.flexmail.domain.mail.TempMail;
 import com.jayon.flexmail.presentation.dto.TempMailResponse;
 import jakarta.servlet.http.Cookie;
@@ -11,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
+
 
 @RestController
 @RequestMapping("/api/temp-emails")
@@ -41,12 +42,10 @@ public class TempMailController {
             @CookieValue(value = FLEX_MAIL_ID_COOKIE, required = false) String flexMailId) {
         
         if (!StringUtils.hasText(flexMailId)) {
-            return ResponseEntity.notFound().build();
+            throw BusinessException.badRequest("임시 메일 ID가 필요합니다.");
         }
         
-        Optional<TempMail> tempMail = tempMailService.getCurrentTempMail(flexMailId);
-        
-        return tempMail.map(mail -> ResponseEntity.ok(TempMailResponse.from(mail)))
-                      .orElse(ResponseEntity.notFound().build());
+        TempMail tempMail = tempMailService.getCurrentTempMail(flexMailId);
+        return ResponseEntity.ok(TempMailResponse.from(tempMail));
     }
 }
