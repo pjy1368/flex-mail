@@ -13,7 +13,7 @@ public class TempMailService {
     
     private final TempMailRepository tempMailRepository;
     
-    public TempMail createTempMail() {
+    public TempMail create() {
         return tempMailRepository.save(TempMail.create());
     }
     

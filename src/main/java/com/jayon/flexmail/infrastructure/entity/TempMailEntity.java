@@ -24,22 +24,16 @@ public class TempMailEntity {
     
     private String displayEmailAddress;
     
-    private LocalDateTime createdAt;
-    
     private LocalDateTime expiresAt;
     
-    @TimeToLive
-    public long getTimeToLive() {
-        long ttlSeconds = Duration.between(LocalDateTime.now(), this.expiresAt).getSeconds();
-        return Math.max(1, ttlSeconds);
-    }
+    private LocalDateTime createdAt;
     
     public static TempMailEntity from(TempMail domain) {
         return TempMailEntity.builder()
                 .id(domain.getId())
                 .displayEmailAddress(domain.getDisplayEmailAddress())
-                .createdAt(domain.getCreatedAt())
                 .expiresAt(domain.getExpiresAt())
+                .createdAt(domain.getCreatedAt())
                 .build();
     }
     
@@ -47,8 +41,14 @@ public class TempMailEntity {
         return TempMail.builder()
                 .id(this.id)
                 .displayEmailAddress(this.displayEmailAddress)
-                .createdAt(this.createdAt)
                 .expiresAt(this.expiresAt)
+                .createdAt(this.createdAt)
                 .build();
+    }
+
+    @TimeToLive
+    public long getTimeToLive() {
+        long ttlSeconds = Duration.between(LocalDateTime.now(), this.expiresAt).getSeconds();
+        return Math.max(1, ttlSeconds);
     }
 }

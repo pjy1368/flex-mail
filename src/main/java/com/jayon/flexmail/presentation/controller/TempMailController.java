@@ -24,7 +24,7 @@ public class TempMailController {
     
     @PostMapping
     public ResponseEntity<TempMailResponse> createTempMail(HttpServletResponse response) {
-        TempMail tempMail = tempMailService.createTempMail();
+        TempMail tempMail = tempMailService.create();
         
         Cookie cookie = new Cookie(FLEX_MAIL_ID_COOKIE, tempMail.getId());
         cookie.setMaxAge(600);

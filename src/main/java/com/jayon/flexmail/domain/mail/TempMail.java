@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
+import org.springframework.cglib.core.Local;
 
 @Getter
 @Builder
@@ -20,21 +21,21 @@ public class TempMail {
 
     private String displayEmailAddress;
 
-    private LocalDateTime createdAt;
-
     private LocalDateTime expiresAt;
+
+    private LocalDateTime createdAt;
 
     public static TempMail create() {
         String id = generateId();
         String emailAddress = TempMailGenerator.generateDisplayEmailAddress();
-        LocalDateTime now = LocalDateTime.now();
-        LocalDateTime expiresAt = now.plusMinutes(DEFAULT_EXPIRY_MINUTES);
+        LocalDateTime createdAt = LocalDateTime.now();
+        LocalDateTime expiresAt = createdAt.plusMinutes(DEFAULT_EXPIRY_MINUTES);
 
         return TempMail.builder()
                 .id(id)
                 .displayEmailAddress(emailAddress)
-                .createdAt(now)
                 .expiresAt(expiresAt)
+                .createdAt(createdAt)
                 .build();
     }
 
