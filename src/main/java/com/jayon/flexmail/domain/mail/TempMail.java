@@ -5,9 +5,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.UUID;
-import org.springframework.cglib.core.Local;
 
 @Getter
 @Builder
@@ -41,5 +41,10 @@ public class TempMail {
 
     private static String generateId() {
         return UUID.randomUUID().toString();
+    }
+
+    public int getRemainingSeconds() {
+        long remainingSeconds = Duration.between(LocalDateTime.now(), this.expiresAt).getSeconds();
+        return (int) Math.max(0, remainingSeconds);
     }
 }

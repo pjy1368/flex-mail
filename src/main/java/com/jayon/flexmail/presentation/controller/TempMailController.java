@@ -27,7 +27,7 @@ public class TempMailController {
         TempMail tempMail = tempMailService.create();
         
         Cookie cookie = new Cookie(FLEX_MAIL_ID_COOKIE, tempMail.getId());
-        cookie.setMaxAge(600);
+        cookie.setMaxAge(tempMail.getRemainingSeconds());
         cookie.setHttpOnly(true);
         cookie.setPath("/");
         response.addCookie(cookie);
